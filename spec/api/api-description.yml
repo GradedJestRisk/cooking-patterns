@@ -1,0 +1,52 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Cooking patterns
+paths:
+  /recipes:
+    get:
+      summary: List all recipes
+      operationId: listRecipes
+      responses:
+        '200':
+          description: A array of recipes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecipesSearchResults"
+components:
+  schemas:
+    Criteria:
+      type: string
+      required:
+        - name
+        - source
+      properties:
+        name:
+          type: string
+        source:
+          type: string
+    Recipe:
+      type: object
+      required:
+        - name
+        - source
+      properties:
+        name:
+          type: string
+        source:
+          type: string
+    Recipes:
+      type: array
+      items:
+        $ref: "#/components/schemas/Recipe"
+    RecipesSearchResults:
+      type: object
+      required:
+        - criteria
+        - recipes
+      properties:
+        criteria:
+          type: string
+        recipes:
+          $ref: "#/components/schemas/Recipes"
