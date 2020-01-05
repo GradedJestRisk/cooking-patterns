@@ -1,0 +1,7 @@
+language: node_js
+node_js:
+  - node
+before_install:
+  - npm install dredd@12.1.0 --global
+after_success:
+  - dredd
