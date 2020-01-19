@@ -1,0 +1,60 @@
+{
+  "name": "cooking-patterns",
+  "version": "0.0.0",
+  "description": "Don't look into recipes, look through recipes",
+  "main": "src/recipes/server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "node src/recipes/server.js",
+    "test": "mocha ./src/recipes/*.test.js",
+    "coverage": "nyc npm run test",
+    "lint": "eslint ./src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test && npm run lint",
+      "pre-push": "npm test && npm run lint"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GradedJestRisk/cooking-patterns.git"
+  },
+  "keywords": [
+    "cooking",
+    "pattern",
+    "recipe"
+  ],
+  "author": {
+    "name": "Graded Jest Risk",
+    "email": "graded.jest.risk@gmail.com",
+    "url": "https://twitter.com/JestRisk"
+  },
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/GradedJestRisk/CookingPatterns/issues"
+  },
+  "homepage": "https://github.com/GradedJestRisk/CookingPatterns#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "dredd": "^12.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.19.1",
+    "husky": "^4.0.3",
+    "mocha": "^7.0.0",
+    "nodemon": "^2.0.2",
+    "nyc": "^15.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "find-my-way": "^2.2.1"
+  },
+  "engines": {
+    "node": ">=13.0.1",
+    "npm": ">= 6.13.6"
+  }
+}
