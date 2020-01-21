@@ -1,8 +1,14 @@
 # CookingPatterns
 
 ## Goal
+Unveil cooking patterns in recipes.
 
-Don't look into recipes, look through recipes, from [Samin Nosrat fundational book](https://www.saltfatacidheat.com/)
+
+Truth to be told, recipes are infantilizing:
+"Just do exactly what I say", they say, "but don't ask questions or worry your little head about why".
+They insist in fidelity and faith, but do nothing to earn or explain it.
+
+Michael Pollan, from preface of Samin Nosrat [fundation](https://www.saltfatacidheat.com/) book
 
 ## Work method
 
