@@ -1,6 +1,14 @@
 require('dotenv').config();
 
-const port = process.env.API_PORT;
+let port;
+
+if (process.env.NODE_ENV === 'PRODUCTION') {
+  // Set dynamically by Heroku
+  port = process.env.PORT;
+} else {
+  // Set statically by dotenv
+  port = process.env.API_PORT;
+}
 
 const { createServer } = require('http');
 const router = require('find-my-way')();
