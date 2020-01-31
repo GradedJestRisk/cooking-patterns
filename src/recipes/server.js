@@ -1,27 +1,43 @@
 require('dotenv').config();
-
-const port = process.env.API_PORT;
-
-const { createServer } = require('http');
-const router = require('find-my-way')();
+const Hapi = require('@hapi/hapi');
 const { recipesList } = require('./recipe');
 
-router.get('/', (request, response) => {
-  response.writeHead(200, { 'Content-Type': 'application/json' });
-  response.write(JSON.stringify({ resources: 'recipe' }));
-  response.end();
+const server = Hapi.server({ port: process.env.API_PORT, host: 'localhost' });
+
+server.route([
+  {
+    method: 'GET',
+    path: '/',
+    handler: (request, h) => {
+      return h
+        .response(JSON.stringify({ resources: 'recipe' }))
+        .type('application/json');
+    },
+  },
+  {
+    method: 'GET',
+    path: '/recipes',
+    handler: (request, h) => {
+      return h
+        .response(JSON.stringify(recipesList))
+        .type('application/json');
+    },
+  },
+]);
+
+exports.init = async () => {
+  await server.initialize();
+  return server;
+};
+
+exports.start = async () => {
+  await server.start;
+  // eslint-disable-next-line no-console
+  console.log('server listening at %s', server.info.uri);
+};
+
+process.on('unhandledRejection', (err) => {
+  // eslint-disable-next-line no-console
+  console.log(err);
+  process.exit(1);
 });
-
-router.get('/recipes', (request, response) => {
-  response.writeHead(200, { 'Content-Type': 'application/json' });
-  response.write(JSON.stringify(recipesList));
-  response.end();
-});
-
-const server = createServer().listen(port)
-  .on('request', (req, res) => router.lookup(req, res));
-
-// eslint-disable-next-line no-console
-console.log('Listening on port: ', port);
-
-module.exports = server;

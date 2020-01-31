@@ -5,10 +5,6 @@ chai.use(chaiHttp);
 
 const serverTest = require('./server');
 
-chai.should();
-
-chai.use(chaiHttp);
-
 describe('server', () => {
   describe('/', () => {
     it('should return 200/JSON', (done) => {
