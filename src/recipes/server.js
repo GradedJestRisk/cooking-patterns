@@ -25,6 +25,11 @@ router.get('/recipes/:id', (request, response, params) => {
   response.end();
 });
 
+router.post('/recipes', (request, response) => {
+  response.writeHead(201);
+  response.end();
+});
+
 const server = createServer().listen(port)
   .on('request', (req, res) => router.lookup(req, res));
 

@@ -1,12 +1,9 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-
-chai.use(chaiHttp);
-
 const serverTest = require('./server');
 
+chai.use(chaiHttp);
 chai.should();
-
 
 describe('server', () => {
   describe('recipes', () => {
@@ -68,7 +65,6 @@ describe('server', () => {
             });
         });
       });
-
       describe('when the recipe does not exists', () => {
         it('should return 404/JSON', (done) => {
           chai.request(serverTest)
@@ -90,6 +86,26 @@ describe('server', () => {
               done();
             });
         });
+      });
+    });
+    describe('create a recipe', () => {
+      describe('when the recipe is valid', () => {
+        it('should return 201', (done) => {
+          const expectedRecipe = {
+            name: 'amlou',
+            description: 'Mix honey, crushed almond and argan oil',
+          };
+
+          chai.request(serverTest)
+            .post('/recipes')
+            .send(expectedRecipe)
+            .end((error, response) => {
+              response.should.have.status(201);
+              done();
+            });
+        });
+        //        it('should return recipe', () => {});
+        //        it('should return the recipe location', (done) => {});
       });
     });
   });
