@@ -95,7 +95,7 @@ describe('server', () => {
         name: 'amlou',
         description: 'Mix honey, crushed almond and argan oil',
       };
-      describe('when the recipe is valid JSON', () => {
+      describe('when the recipe is valid', () => {
         describe('should return', () => {
           describe('in headers', () => {
             it('code: 201', (done) => {
@@ -139,12 +139,25 @@ describe('server', () => {
             });
           });
         });
-        it('should reject invalid JSON', (done) => {
+      });
+      describe('when the recipe is not valid', () => {
+        it('should return 400', (done) => {
           chai.request(serverTest)
             .post('/recipes')
             .send({ id: 1 })
             .end((error, response) => {
               response.should.have.status(400);
+              done();
+            });
+        });
+        it('should return expected properties', (done) => {
+          chai.request(serverTest)
+            .post('/recipes')
+            .send({ id: 1 })
+            .end((error, response) => {
+              response.should.have.ownProperty('error');
+              const parsedResponse = JSON.parse(response.text);
+              parsedResponse.error.should.be.equal('recipe must include the following properties: name, description');
               done();
             });
         });

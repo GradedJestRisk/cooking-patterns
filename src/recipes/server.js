@@ -30,7 +30,7 @@ router.get('/recipes/:id', (request, response, params) => {
 router.post('/recipes', (request, response) => {
   parse(request)
     .then((body) => {
-      if ( body.name === undefined || body.description === undefined) {
+      if (!body.name || !body.description) {
         response.writeHead(400);
         response.write(JSON.stringify({ error: 'recipe must include the following properties: name, description' }));
       } else {
