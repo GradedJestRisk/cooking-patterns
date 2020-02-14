@@ -28,13 +28,18 @@ router.get('/recipes/:id', (request, response, params) => {
 });
 
 router.post('/recipes', (request, response) => {
-  const id = 3;
-  const location = `${API_URL + request.url}/${id}`;
   parse(request)
     .then((body) => {
-      const recipe = { ...body, id };
-      response.writeHead(201, { 'Content-Type': 'application/json', location });
-      response.write(JSON.stringify(recipe));
+      if ( body.name === undefined || body.description === undefined) {
+        response.writeHead(400);
+        response.write(JSON.stringify({ error: 'recipe must include the following properties: name, description' }));
+      } else {
+        const id = 3;
+        const location = `${API_URL + request.url}/${id}`;
+        response.writeHead(201, { 'Content-Type': 'application/json', location });
+        const recipe = { ...body, id };
+        response.write(JSON.stringify(recipe));
+      }
     })
   // eslint-disable-next-line no-console
     .catch((error) => console.error(error.message))

@@ -139,6 +139,15 @@ describe('server', () => {
             });
           });
         });
+        it('should reject invalid JSON', (done) => {
+          chai.request(serverTest)
+            .post('/recipes')
+            .send({ id: 1 })
+            .end((error, response) => {
+              response.should.have.status(400);
+              done();
+            });
+        });
       });
     });
   });
