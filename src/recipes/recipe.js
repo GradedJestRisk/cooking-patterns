@@ -1,4 +1,5 @@
 const brusselsSproutRecipe = {
+  id: '1',
   name: 'Brussel sprout risotto',
   source: {
     author: {
@@ -13,6 +14,7 @@ const brusselsSproutRecipe = {
 };
 
 const spinachFetaRecipe = {
+  id: '2',
   name: 'Spinach and feta',
   source: {
     resource: {
@@ -24,11 +26,6 @@ const spinachFetaRecipe = {
 
 const recipes = [brusselsSproutRecipe, spinachFetaRecipe];
 
-const recipesList = {
-  criteria: 'all',
-  recipes,
-};
-
 module.exports = {
-  recipesList,
+  recipes,
 };
