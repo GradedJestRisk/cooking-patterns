@@ -1,0 +1,3 @@
+{
+  "spec": "./src/recipes/*.test.js"
+}

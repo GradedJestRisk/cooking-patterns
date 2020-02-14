@@ -9,7 +9,9 @@
   "scripts": {
     "start": "node src/recipes/server.js",
     "test": "mocha ./src/recipes/*.test.js",
-    "coverage": "nyc npm run test",
+    "coverage:execution": "nyc npm run test",
+    "coverage:assertion":"stryker run",
+    "coverage:all": "npm run coverage:execution && npm run coverage:assertion",
     "lint": "eslint ./src"
   },
   "husky": {
@@ -38,6 +40,10 @@
   },
   "homepage": "https://github.com/GradedJestRisk/CookingPatterns#readme",
   "devDependencies": {
+    "@stryker-mutator/core": "^2.5.0",
+    "@stryker-mutator/javascript-mutator": "^2.5.0",
+    "@stryker-mutator/mocha-framework": "^2.5.0",
+    "@stryker-mutator/mocha-runner": "^2.5.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "dredd": "^12.2.0",
