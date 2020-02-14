@@ -91,17 +91,17 @@ describe('server', () => {
       });
     });
     describe('create a recipe', () => {
-      const expectedRecipe = {
-        name: 'amlou',
-        description: 'Mix honey, crushed almond and argan oil',
-      };
-      describe('when the recipe is valid JSON', () => {
+      describe('when the recipe is valid', () => {
+        const validRecipe = {
+          name: 'amlou',
+          description: 'Mix honey, crushed almond and argan oil',
+        };
         describe('should return', () => {
           describe('in headers', () => {
             it('code: 201', (done) => {
               chai.request(serverTest)
                 .post('/recipes')
-                .send(expectedRecipe)
+                .send(validRecipe)
                 .end((error, response) => {
                   response.should.have.status(201);
                   done();
@@ -110,7 +110,7 @@ describe('server', () => {
             it('Content-Type: JSON', () => {
               chai.request(serverTest)
                 .post('/recipes')
-                .send(expectedRecipe)
+                .send(validRecipe)
                 .end((error, response) => {
                   response.should.be.json;
                 });
@@ -120,7 +120,7 @@ describe('server', () => {
 
               chai.request(serverTest)
                 .post('/recipes')
-                .send(expectedRecipe)
+                .send(validRecipe)
                 .end((error, response) => {
                   response.should.have.header('location', expectedLocation);
                 });
@@ -130,14 +130,37 @@ describe('server', () => {
             it('the recipe', () => {
               chai.request(serverTest)
                 .post('/recipes')
-                .send(expectedRecipe)
+                .send(validRecipe)
                 .end((error, response) => {
-                  const expectedNewRecipe = { ...expectedRecipe, id: 3 };
+                  const expectedNewRecipe = { ...validRecipe, id: 3 };
                   const actualNewRecipe = JSON.parse(response.text);
                   actualNewRecipe.should.be.deep.equal(expectedNewRecipe);
                 });
             });
           });
+        });
+      });
+      describe('when the recipe is not valid', () => {
+        const invalidRecipe = { id: 1 };
+        it('should return 400', (done) => {
+          chai.request(serverTest)
+            .post('/recipes')
+            .send(invalidRecipe)
+            .end((error, response) => {
+              response.should.have.status(400);
+              done();
+            });
+        });
+        it('should return expected properties', (done) => {
+          chai.request(serverTest)
+            .post('/recipes')
+            .send(invalidRecipe)
+            .end((error, response) => {
+              response.should.have.ownProperty('error');
+              const parsedResponse = JSON.parse(response.text);
+              parsedResponse.error.should.be.equal('recipe must include the following properties: name, description');
+              done();
+            });
         });
       });
     });
