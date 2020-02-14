@@ -1,9 +1,11 @@
 require('dotenv').config();
 
 const port = process.env.PORT;
+const { API_URL } = process.env;
 
 const { createServer } = require('http');
 const router = require('find-my-way')();
+const parse = require('co-body');
 const { recipes } = require('./recipe');
 
 router.get('/recipes', (request, response) => {
@@ -23,6 +25,20 @@ router.get('/recipes/:id', (request, response, params) => {
     response.write(JSON.stringify(recipes[recipeIndex]));
   }
   response.end();
+});
+
+router.post('/recipes', (request, response) => {
+  const id = 3;
+  const location = `${API_URL + request.url}/${id}`;
+  parse(request)
+    .then((body) => {
+      const recipe = { ...body, id };
+      response.writeHead(201, { 'Content-Type': 'application/json', location });
+      response.write(JSON.stringify(recipe));
+    })
+  // eslint-disable-next-line no-console
+    .catch((error) => console.error(error.message))
+    .finally(() => response.end());
 });
 
 const server = createServer().listen(port)

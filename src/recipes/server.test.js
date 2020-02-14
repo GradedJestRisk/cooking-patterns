@@ -1,12 +1,11 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-
-chai.use(chaiHttp);
-
 const serverTest = require('./server');
 
+chai.use(chaiHttp);
 chai.should();
 
+const { API_URL } = process.env;
 
 describe('server', () => {
   describe('recipes', () => {
@@ -68,7 +67,6 @@ describe('server', () => {
             });
         });
       });
-
       describe('when the recipe does not exists', () => {
         it('should return 404/JSON', (done) => {
           chai.request(serverTest)
@@ -89,6 +87,57 @@ describe('server', () => {
               parsedResponse.error.should.be.equal(`recipe ${expectedRecipeId} not found`);
               done();
             });
+        });
+      });
+    });
+    describe('create a recipe', () => {
+      const expectedRecipe = {
+        name: 'amlou',
+        description: 'Mix honey, crushed almond and argan oil',
+      };
+      describe('when the recipe is valid JSON', () => {
+        describe('should return', () => {
+          describe('in headers', () => {
+            it('code: 201', (done) => {
+              chai.request(serverTest)
+                .post('/recipes')
+                .send(expectedRecipe)
+                .end((error, response) => {
+                  response.should.have.status(201);
+                  done();
+                });
+            });
+            it('Content-Type: JSON', () => {
+              chai.request(serverTest)
+                .post('/recipes')
+                .send(expectedRecipe)
+                .end((error, response) => {
+                  response.should.be.json;
+                });
+            });
+            it('Location: the recipe location', () => {
+              const expectedLocation = `${API_URL}/recipes/3`;
+
+              chai.request(serverTest)
+                .post('/recipes')
+                .send(expectedRecipe)
+                .end((error, response) => {
+                  response.should.have.header('location', expectedLocation);
+                });
+            });
+          });
+          describe('in payload', () => {
+            it('the recipe', () => {
+              chai.request(serverTest)
+                .post('/recipes')
+                .send(expectedRecipe)
+                .end((error, response) => {
+                  const expectedNewRecipe = { ...expectedRecipe, id: 3 };
+                  const actualNewRecipe = JSON.parse(response.text);
+                  actualNewRecipe.should.be.deep.equal(expectedNewRecipe);
+                });
+            });
+          });
         });
       });
     });
