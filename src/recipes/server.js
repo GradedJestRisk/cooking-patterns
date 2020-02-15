@@ -17,7 +17,22 @@ const responseCode = {
   },
 };
 
+class Logger {
+  constructor() {
+    this.messages = [];
+  }
+
+  log(message) {
+    this.messages.push(message);
+    // eslint-disable-next-line no-console
+    console.log(message);
+  }
+}
+
+const logger = new Logger();
+
 router.get('/recipes', (request, response) => {
+  logger.log('Request on GET /recipes');
   response.writeHead(responseCode.success, { 'Content-Type': 'application/json' });
   response.write(JSON.stringify(recipes));
   response.end();
@@ -60,7 +75,7 @@ router.post('/recipes', (request, response) => {
 const server = createServer().listen(port)
   .on('request', (req, res) => router.lookup(req, res));
 
-// eslint-disable-next-line no-console
-console.log('Listening on port: ', port);
 
-module.exports = server;
+logger.log(`Listening on port: ${port}`);
+
+module.exports = { server, logger };

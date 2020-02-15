@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node src/recipes/server.js",
-    "test": "mocha ./src/recipes/*.test.js",
+    "test": "mocha",
     "coverage:execution": "nyc npm run test",
     "coverage:assertion": "stryker run",
     "coverage:all": "npm run coverage:execution && npm run coverage:assertion",
@@ -58,8 +58,7 @@
   "dependencies": {
     "co-body": "^6.0.0",
     "dotenv": "^8.2.0",
-    "find-my-way": "^2.2.1",
-    "sinon": "^8.1.1"
+    "find-my-way": "^2.2.1"
   },
   "engines": {
     "node": ">=13.8.0",

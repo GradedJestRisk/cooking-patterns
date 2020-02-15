@@ -1,13 +1,13 @@
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
-    mutator: "javascript",
-    packageManager: "npm",
-    reporters: ["clear-text", "progress"],
-    testRunner: "mocha",
+    mutator: 'javascript',
+    packageManager: 'npm',
+    reporters: ['clear-text', 'progress'],
+    testRunner: 'mocha',
     transpilers: [],
-    testFramework: "mocha",
-    coverageAnalysis: "perTest",
-    mutate: ["./src/recipes/server.js"],
-    logLevel: "error"
+    testFramework: 'mocha',
+    coverageAnalysis: 'perTest',
+    mutate: ['./src/recipes/server.js'],
+    logLevel: 'error',
   });
 };
