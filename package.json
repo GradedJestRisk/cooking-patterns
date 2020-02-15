@@ -58,7 +58,8 @@
   "dependencies": {
     "co-body": "^6.0.0",
     "dotenv": "^8.2.0",
-    "find-my-way": "^2.2.1"
+    "find-my-way": "^2.2.1",
+    "sinon": "^8.1.1"
   },
   "engines": {
     "node": ">=13.8.0",
