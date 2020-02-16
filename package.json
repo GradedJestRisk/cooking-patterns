@@ -3,9 +3,6 @@
   "version": "0.0.0",
   "description": "Don't look into recipes, look through recipes",
   "main": "src/recipes/server.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "start": "node src/recipes/server.js",
     "test": "mocha",
