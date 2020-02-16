@@ -1,13 +1,12 @@
 require('dotenv').config();
-
-const port = process.env.PORT;
-const { API_URL } = process.env;
-
 const { createServer } = require('http');
 const router = require('find-my-way')();
 const parse = require('co-body');
+const Logger = require('./logger');
 const { recipes } = require('./recipe');
 
+const port = process.env.PORT;
+const { API_URL } = process.env;
 const responseCode = {
   created: 201,
   success: 200,
@@ -16,19 +15,6 @@ const responseCode = {
     notFound: 404,
   },
 };
-
-class Logger {
-  constructor() {
-    this.messages = [];
-  }
-
-  log(message) {
-    this.messages.push(message);
-    // eslint-disable-next-line no-console
-    console.log(message);
-  }
-}
-
 const logger = new Logger();
 
 router.get('/recipes', (request, response) => {
