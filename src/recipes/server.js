@@ -1,13 +1,12 @@
 require('dotenv').config();
-
-const port = process.env.PORT;
-const { API_URL } = process.env;
-
 const { createServer } = require('http');
 const router = require('find-my-way')();
 const parse = require('co-body');
+const Logger = require('./logger');
 const { recipes } = require('./recipe');
 
+const port = process.env.PORT;
+const { API_URL } = process.env;
 const responseCode = {
   created: 201,
   success: 200,
@@ -16,8 +15,10 @@ const responseCode = {
     notFound: 404,
   },
 };
+const logger = new Logger();
 
 router.get('/recipes', (request, response) => {
+  logger.log('Request on GET /recipes');
   response.writeHead(responseCode.success, { 'Content-Type': 'application/json' });
   response.write(JSON.stringify(recipes));
   response.end();
@@ -60,7 +61,7 @@ router.post('/recipes', (request, response) => {
 const server = createServer().listen(port)
   .on('request', (req, res) => router.lookup(req, res));
 
-// eslint-disable-next-line no-console
-console.log('Listening on port: ', port);
 
-module.exports = server;
+logger.log(`Listening on port: ${port}`);
+
+module.exports = { server, logger };

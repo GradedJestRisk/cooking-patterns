@@ -3,12 +3,9 @@
   "version": "0.0.0",
   "description": "Don't look into recipes, look through recipes",
   "main": "src/recipes/server.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "start": "node src/recipes/server.js",
-    "test": "mocha ./src/recipes/*.test.js",
+    "test": "mocha",
     "coverage:execution": "nyc npm run test",
     "coverage:assertion": "stryker run",
     "coverage:all": "npm run coverage:execution && npm run coverage:assertion",
